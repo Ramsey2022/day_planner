@@ -10,7 +10,7 @@ python-dotenv
 Flask-Talisman
 Flask-CORS
 django
-pymongo
+psycopg2-binary
 
 # Runtime dependencies
 gunicorn

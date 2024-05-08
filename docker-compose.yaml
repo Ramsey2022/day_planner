@@ -1,0 +1,26 @@
+services:
+
+  db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  migration:
+    image: day_planner
+    command: python3 manage.py migrate --noinput
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+  web:
+    build: .
+    image: day_planner
+    command: python3 manage.py runserver 0.0.0.0:8000
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/app
+    depends_on:
+      - migration
+      - db
