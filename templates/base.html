@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+
+    <title>Day_Planner</title>
+    {% load static %} {#{% load staticfiles %}#}
+
+    
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css'%}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css'%}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css'%}"
+    />
+    <link rel="stylesheet" href="{% static 'assets/css/style.css'%}" />
+
+    {% block head_content %} {% endblock %}
+  </head>
+
+  <body>
+    <header id="header" class="">
+      <div class="container d-flex align-items-center justify-content-between">
+        <h1 class="logo"><a href="/">Day_Planner</a></h1>
+        <nav class="navbar">
+          <ul class="ml-auto">
+            <li>
+              <a class="nav-link scrollto" href="{% url 'index' %}">Home</a>
+            </li>
+            <li>
+              <a class="nav-link scrollto" href="{% url 'weather' %}">Weather</a>
+            </li>
+            <li>
+              <a class="nav-link scrollto" href="{% url 'parks' %}">Parks</a>
+            </li>
+            {% if request.user.is_authenticated %}
+            <li>
+              <a class="nav-link scrollto o" href="{% url 'weather' %}"
+                >Weather</a
+              >
+            </li>
+            {% endif%}
+          </ul>
+
+          <ul>
+            {% if not request.user.is_authenticated %}
+            <li>
+              <a class="nav-link scrollto o" href="{% url 'login' %}">Login</a>
+            </li>
+            {% endif%} {% if not request.user.is_authenticated %}
+            <li>
+              <a class="nav-link scrollto o" href="{% url 'signup' %}"
+                >Signup</a
+              >
+            </li>
+            {% endif%} {% if request.user.is_authenticated %}
+            <li>
+              <a href="#" class="nav-link"
+                >Logged in as {{ request.user.username }}</a
+              >
+            </li>
+            <li>
+              <a class="nav-link scrollto o" href="{% url 'logout' %}"
+                >Logout</a
+              >
+            </li>
+            {% endif%}
+          </ul>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+        </nav>
+        <!-- .navbar -->
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="container mt-3">
+        <section>{% block content %} {% endblock %}</section>
+      </div>
+    </main>
+
+    <!-- Vendor JS Files -->
+    <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    {% block js_script %} {% endblock %}
+  </body>
+</html>
