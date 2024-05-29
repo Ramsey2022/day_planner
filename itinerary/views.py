@@ -60,8 +60,10 @@ def index(request):
 
 
 def weather(request):
-    pass
+    weather = req.get("http://weather_api:172.19.0.2/forecast").json()
+    return render(request, "weather.html", {"weather": weather})
 
 
 def parks(request):
-    pass
+    parks = req.get("http://parks_api:172.20.0.2/parks").json()
+    return render(request, "parks.html", {"parks": parks})
