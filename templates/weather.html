@@ -18,7 +18,7 @@
             <td>High: {{ weather.temp_max }}°F Low: {{ weather.temp_min }}°F</td>
             <td>{{ weather.humidity }}%</td>
             <td><div id="weather"><img src="https://openweathermap.org/img/w/{{ weather.icon }}.png"></img> {{ weather.main }}</div></td>
-            <td>{{ '%.2f' % (weather.wind) }} mph</td>
+            <td>{{ weather.wind }} mph</td>
         </tr>
     {% endfor %}
 </table>
