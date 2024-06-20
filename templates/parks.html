@@ -13,7 +13,7 @@
             <td>{{ park.name }}</td>
             <td>Address: {{ park.address }}</td>
             <td>Rating: {{ park.rating }}</td>
-            <td><div id='photos'><img src="https://maps.googleapis.com/maps/api/place/photo?parameters&maxheight=400&maxwidth=400&photo_reference={{ park.photo_ref }}&key={{ API_KEY }}"></img></div></td>
+            <td><div id='photos'><img src="https://maps.googleapis.com/maps/api/place/photo?parameters&maxheight=400&maxwidth=400&photo_reference={{ park.photo_ref }}&key={{ park.key }}"></img></div></td>
         </tr>
     {% endfor %}
 </table>
