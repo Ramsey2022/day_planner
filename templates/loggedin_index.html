@@ -1,0 +1,14 @@
+{% extends "base.html" %} 
+{% load static %} 
+{% block head_content %}
+{% endblock %} 
+{% block content %}
+
+    <h1 class="text-white">
+      Welcome, {{request.user.username}}.
+    </h1>
+    <h2 class="text-white">
+        Weather for {{request.user.profile.postal_code}}.
+    </h2>
+
+{% endblock %}

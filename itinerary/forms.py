@@ -58,7 +58,21 @@ class SignUpForm(AuthenticationForm):
             }
         ),
     )
+    postal_code = forms.CharField(
+        max_length=6,
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                "placeholder": "97124",
+                "class": "form-control",
+            }
+        ),
+    )
 
     class Meta:
         model = User
-        fields = ["username", "password"]
+        fields = [
+            "username",
+            "password",
+            "postal code",
+        ]

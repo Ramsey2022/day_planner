@@ -17,6 +17,7 @@ def signup(request):
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
+        postal_code = request.POST.get("postal_code")
         try:
             user = User.objects.filter(username=username).first()
             if user:
@@ -27,7 +28,9 @@ def signup(request):
                 )
             else:
                 user = User.objects.create(
-                    username=username, password=make_password(password)
+                    username=username,
+                    password=make_password(password),
+                    postal_code=postal_code,
                 )
                 login(request, user)
                 return HttpResponseRedirect(reverse("index"))
