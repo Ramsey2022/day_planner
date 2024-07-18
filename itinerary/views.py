@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.contrib.auth.hashers import make_password
@@ -33,7 +33,7 @@ def signup(request):
                     postal_code=postal_code,
                 )
                 login(request, user)
-                return HttpResponseRedirect(reverse("index"))
+                return HttpResponseRedirect(reverse("home"))
         except User.DoesNotExist:
             return render(request, "signup.html", {"form": SignUpForm})
     return render(request, "signup.html", {"form": SignUpForm})
@@ -47,7 +47,7 @@ def login_view(request):
             user = User.objects.get(username=username)
             if user.check_password(password):
                 login(request, user)
-                return HttpResponseRedirect(reverse("index"))
+                return HttpResponseRedirect(reverse("home"))
         except User.DoesNotExist:
             return render(request, "login.html", {"form": LoginForm})
     return render(request, "login.html", {"form": LoginForm})
@@ -59,18 +59,31 @@ def logout_view(request):
 
 
 def index(request):
-    return render(request, "index.html")
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("home"))
+    else:
+        return render(request, "index.html")
+
+
+def home(request):
+    return render(request, "loggedin_index.html")
 
 
 def weather(request):
-    weather = req.get("http://weather_api:8080/forecast")
-    data = weather.json()
-    # print(weather)
-    return render(request, "weather.html", {"weather_data": data})
+    if request.user.is_authenticated:
+        zipcode = {"postal_code": request.user.profile.postal_code}
+        weather = req.get("http://weather_api:8080/forecast", json=zipcode)
+        data = weather.json()
+        return render(request, "weather.html", {"weather_data": data})
+    else:
+        return HttpResponseRedirect(reverse("login"))
 
 
 def parks(request):
-    parks = req.get("http://parks_api:8060/parks")
-    data = parks.json()
-    # print(parks.text)
-    return render(request, "parks.html", {"park_data": data})
+    if request.user.is_authenticated:
+        zipcode = {"postal_code": request.user.profile.postal_code}
+        parks = req.post("http://parks_api:8060/parks", json=zipcode)
+        data = parks.json()
+        return render(request, "parks.html", {"park_data": data})
+    else:
+        return HttpResponseRedirect(reverse("login"))

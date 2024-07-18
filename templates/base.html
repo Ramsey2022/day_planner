@@ -40,13 +40,6 @@
             <li>
               <a class="nav-link scrollto" href="{% url 'parks' %}">Parks</a>
             </li>
-            {% if request.user.is_authenticated %}
-            <li>
-              <a class="nav-link scrollto o" href="{% url 'weather' %}"
-                >Weather</a
-              >
-            </li>
-            {% endif%}
           </ul>
 
           <ul>

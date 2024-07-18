@@ -8,4 +8,5 @@ urlpatterns = [
     path("signup/", views.signup, name="signup"),
     path("weather/", views.weather, name="weather"),
     path("parks/", views.parks, name="parks"),
+    path("home/", views.home, name="home"),
 ]

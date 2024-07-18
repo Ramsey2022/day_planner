@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.validators import RegexValidator
 
 # Create your models here.
 
@@ -10,3 +9,6 @@ class Profile(models.Model):
     postal_code = models.CharField(
         max_length=6,
     )
+
+    class Meta:
+        db_table = "profile"
