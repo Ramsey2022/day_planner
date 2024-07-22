@@ -10,5 +10,32 @@
     <h2 class="text-white">
         Weather for {{request.user.profile.postal_code}}.
     </h2>
+    <table>
+      <tr>
+          <th>Today</th>
+          <th>Weather</th>
+          <th>Temperature</th>
+      </tr>
+      {% for weather in weather_data %}
+          <tr>
+              <td>{{ weather.dayname }}, {{ weather.date }}</td>
+              <td><div id="weather"><img src="https://openweathermap.org/img/w/{{ weather.icon }}.png"></img> {{ weather.main }}</div></td>
+              <td>High: {{ weather.temp_max }}°F  Low: {{ weather.temp_min }}°F</td>
+          </tr>
+      {% endfor %}
+    </table>
+    <table>
+      <tr>
+          <th>Nearby Parks</th>
+      </tr>
+      {% for park in park_data %}
+          <tr>
+              <td>{{ park.name }}</td>
+              <td>Address: {{ park.address }}</td>
+              <td>Rating: {{ park.rating }}</td>
+              <td><div id='photos'><img src="https://maps.googleapis.com/maps/api/place/photo?parameters&maxheight=100&maxwidth=100&photo_reference={{ park.photo_ref }}&key={{ park.key }}"></img></div></td>
+          </tr>
+      {% endfor %}
+  </table>
 
 {% endblock %}

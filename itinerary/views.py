@@ -66,7 +66,22 @@ def index(request):
 
 
 def home(request):
-    return render(request, "loggedin_index.html")
+    if request.user.is_authenticated:
+        zipcode = {"postal_code": request.user.profile.postal_code}
+        weather = req.get("http://weather_api:8080/forecast", json=zipcode)
+        parks = req.post("http://parks_api:8060/parks", json=zipcode)
+        weather_data = weather.json()
+        park_data = parks.json()
+
+        weather_item = weather_data[0:1]
+        park_item = park_data[0:5]
+        return render(
+            request,
+            "loggedin_index.html",
+            {"weather_data": weather_item, "park_data": park_item},
+        )
+    else:
+        return HttpResponseRedirect(reverse("login"))
 
 
 def weather(request):
