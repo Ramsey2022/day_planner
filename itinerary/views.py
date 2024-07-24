@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.contrib.auth.hashers import make_password
 import requests as req
+from django.core.exceptions import ObjectDoesNotExist
 
 from itinerary.forms import LoginForm, SignUpForm
 
@@ -49,7 +50,7 @@ def login_view(request):
                 login(request, user)
                 return HttpResponseRedirect(reverse("home"))
         except User.DoesNotExist:
-            return render(request, "login.html", {"form": LoginForm})
+            return render(request, "signup.html", {"form": SignUpForm})
     return render(request, "login.html", {"form": LoginForm})
 
 
@@ -67,7 +68,10 @@ def index(request):
 
 def home(request):
     if request.user.is_authenticated:
-        zipcode = {"postal_code": request.user.profile.postal_code}
+        try:
+            zipcode = {"postal_code": request.user.profile.postal_code}
+        except ObjectDoesNotExist:
+            zipcode = {"postal_code": "97124"}
         weather = req.get("http://weather_api:8080/forecast", json=zipcode)
         parks = req.post("http://parks_api:8060/parks", json=zipcode)
         weather_data = weather.json()
@@ -86,7 +90,10 @@ def home(request):
 
 def weather(request):
     if request.user.is_authenticated:
-        zipcode = {"postal_code": request.user.profile.postal_code}
+        try:
+            zipcode = {"postal_code": request.user.profile.postal_code}
+        except ObjectDoesNotExist:
+            zipcode = {"postal_code": "97124"}
         weather = req.get("http://weather_api:8080/forecast", json=zipcode)
         data = weather.json()
         return render(request, "weather.html", {"weather_data": data})
@@ -96,7 +103,10 @@ def weather(request):
 
 def parks(request):
     if request.user.is_authenticated:
-        zipcode = {"postal_code": request.user.profile.postal_code}
+        try:
+            zipcode = {"postal_code": request.user.profile.postal_code}
+        except ObjectDoesNotExist:
+            zipcode = {"postal_code": "97124"}
         parks = req.post("http://parks_api:8060/parks", json=zipcode)
         data = parks.json()
         return render(request, "parks.html", {"park_data": data})
