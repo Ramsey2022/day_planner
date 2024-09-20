@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
+from .models import Profile
 from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.contrib.auth.hashers import make_password
 import requests as req
@@ -31,6 +31,9 @@ def signup(request):
                 user = User.objects.create(
                     username=username,
                     password=make_password(password),
+                )
+                profile = Profile.objects.create(
+                    user=user,
                     postal_code=postal_code,
                 )
                 login(request, user)
