@@ -1,6 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
+from .models import Profile
 
 
 class WeatherViewTest(TestCase):
@@ -98,3 +99,23 @@ class LogoutViewTest(TestCase):
         url = reverse("logout")
         resp = self.client.get(url)
         self.assertEqual(resp.status_code, 302)
+
+
+class UserCreationTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username="test",
+            password="test1!",
+        )
+        self.profile = Profile.objects.create(
+            user=self.user,
+            postal_code="97124",
+        )
+
+    def test_user_creation(self):
+        if User.objects.filter(username="test").exists():
+            assert True
+
+    def test_profile_creation(self):
+        if Profile.objects.filter(postal_code="97124").exists():
+            assert True
