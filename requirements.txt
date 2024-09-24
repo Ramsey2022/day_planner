@@ -1,8 +1,4 @@
-# Pin dependencies that might cause breakage
-Werkzeug
 SQLAlchemy
-
-# Build dependencies
 Flask
 Flask-SQLAlchemy
 psycopg2-binary
@@ -12,24 +8,5 @@ Flask-CORS
 django
 psycopg2-binary
 djangorestframework
-
-# Runtime dependencies
-gunicorn
-honcho
-
-# Code quality
-pylint
-flake8
-black
-
-# Testing dependencies
-nose
-pinocchio
-factory-boy
 pytest
-
-# Code Coverage
-coverage
-
-# Utilities
 httpie
